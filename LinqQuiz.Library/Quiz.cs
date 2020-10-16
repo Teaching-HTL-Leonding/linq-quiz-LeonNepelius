@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LinqQuiz.Library
 {
@@ -16,7 +18,7 @@ namespace LinqQuiz.Library
         /// </exception>
         public static int[] GetEvenNumbers(int exclusiveUpperLimit)
         {
-            throw new NotImplementedException();
+            return Enumerable.Range(1,exclusiveUpperLimit-1).Where(x => x%2 == 0).ToArray();
         }
 
         /// <summary>
@@ -33,7 +35,7 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static int[] GetSquares(int exclusiveUpperLimit)
         {
-            throw new NotImplementedException();
+            return exclusiveUpperLimit > 1 ? Enumerable.Range(1, exclusiveUpperLimit - 1).Where(x => x % 7 == 0).Select(x => Convert.ToInt32(Math.Pow(x,2))).OrderByDescending(x => x).ToArray() : Array.Empty<int>();
         }
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static FamilySummary[] GetFamilyStatistic(IReadOnlyCollection<IFamily> families)
         {
-            throw new NotImplementedException();
+            return families != null ? families.Select(x => new FamilySummary() { FamilyID = x.ID, AverageAge = x.Persons.Count > 0 ? x.Persons.Average(x => x.Age) : 0, NumberOfFamilyMembers = x.Persons.Count }).ToArray() : throw new ArgumentNullException();
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static (char letter, int numberOfOccurrences)[] GetLetterStatistic(string text)
         {
-            throw new NotImplementedException();
+            return text.Where(x => char.IsLetter(x)).GroupBy(x => x).Select(x => (letter: x.Key, numberOfOccurrences: x.Count())).ToArray();
         }
     }
 }
